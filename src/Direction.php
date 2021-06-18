@@ -65,7 +65,7 @@ class Direction
      */
     public static function BL(): Direction
     {
-        return new Direction('br');
+        return new Direction('bl');
     }
 
     /**
@@ -85,6 +85,7 @@ class Direction
     }
 
     /**
+     * 全ての方向を返します。
      * @return Direction[]
      */
     public static function all(): array
@@ -102,6 +103,8 @@ class Direction
     }
 
     /**
+     * 逆方向を返します。
+     *
      * @return Direction
      */
     public function opposite(): Direction
