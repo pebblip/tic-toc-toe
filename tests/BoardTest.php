@@ -15,6 +15,6 @@ class BoardTest extends TestCase
     public function ボードを生成できる() {
         $board = Board::make(3);
 
-        $this->assertEquals('', $board->toString());
+        $this->assertEquals("---\n---\n---\n", $board->toString());
     }
 }
