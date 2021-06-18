@@ -6,11 +6,6 @@ use Pebblip\Board;
 use Pebblip\Position;
 use Pebblip\Stone;
 
-$boardSize = $argv[1];
-
-$board = Board::make($boardSize);
-
-$currentStone = Stone::BLACK();
 /**
  * @param $input
  *
@@ -38,7 +33,13 @@ function println(string $message, $withLn = true) {
     }
 }
 
-println('######## Welcome to ic-tac-toe ########');
+println('######## Welcome to tic-tac-toe ########');
+
+$boardSize = $argv[1];
+
+$board = Board::make($boardSize);
+
+$currentStone = Stone::BLACK();
 
 while (true) {
     println($board->toString());
@@ -53,7 +54,6 @@ while (true) {
         println('SOMETHING WRONG.');
         continue;
     }
-
 
     if (!$board->isEmpty($position)) {
         println('CANT PUT HERE.');
