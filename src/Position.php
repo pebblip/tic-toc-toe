@@ -2,6 +2,8 @@
 
 namespace Pebblip;
 
+use RuntimeException;
+
 /**
  * (x,y)座標からなる位置を表します。
  *
@@ -47,6 +49,12 @@ class Position
         return $this->y;
     }
 
+    /**
+     * 隣接する座標を返します。
+     * @param Direction $direction
+     *
+     * @return Position
+     */
     public function next(Direction $direction): Position
     {
         switch ($direction) {
@@ -66,7 +74,7 @@ class Position
                 return new Position($this->x() - 1, $this->y() + 1);
             case Direction::TL():
                 return new Position($this->x() - 1, $this->y() - 1);
-            default: throw new RuntimeException();
+            default: throw new RuntimeException(); //ありえない
         }
     }
 
