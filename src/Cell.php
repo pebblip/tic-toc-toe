@@ -122,19 +122,6 @@ class Cell
         return $this->neighbors[$direction->code()] !== null;
     }
 
-    /**
-     * @return Cell[]
-     */
-    public function neighbors() : array {
-        return array_map(
-            function (Direction $direction) {
-                return $this->neighbor($direction);
-            },
-            array_filter(Direction::all(), function (Direction $direction) {
-                return $this->hasNeighbor($direction);
-            })
-        );
-    }
 
     /**
      * 隣接セルを返します。
@@ -145,23 +132,6 @@ class Cell
      */
     public function neighbor(Direction $direction) : ?Cell {
         return $this->neighbors[$direction->code()];
-    }
-
-    /**
-     * 指定した方向への全てのセル（自分を含む）を返します。
-     *
-     * @param Direction $direction
-     *
-     * @return Cell[]
-     */
-    public function cellsToEdge(Direction $direction) : array {
-        if (!$this->hasNeighbor($direction)) {
-            return [$this];
-        }
-
-        $cells = $this->neighbor($direction)->cellsToEdge($direction);
-
-        return array_merge([$this], $cells);
     }
 
     /**
