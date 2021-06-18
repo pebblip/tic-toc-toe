@@ -50,4 +50,21 @@ class BoardTest extends TestCase
         $this->expectException(StoneExistsException::class);
         $this->sut->put($position, Stone::BLACK());
     }
+
+    /**
+     * @test
+     * @throws StoneExistsException
+     */
+    public function 石があるか否かを判定できる()
+    {
+        $position = new Position(1, 1);
+
+        $this->assertTrue($this->sut->isEmpty($position));
+
+        $this->sut->put($position, Stone::WHITE());
+
+        $this->assertFalse($this->sut->isEmpty($position));
+    }
+
+
 }
