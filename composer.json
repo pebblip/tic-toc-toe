@@ -1,0 +1,23 @@
+{
+    "name": "tomo/threeinrow-php",
+    "authors": [
+        {
+            "name": "Tomoyuki Higuchi",
+            "email": "h.tomoyuki@me.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Pebblip\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pebblip\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
