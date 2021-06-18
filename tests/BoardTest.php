@@ -21,17 +21,33 @@ class BoardTest extends TestCase
     /**
      * @test
      */
-    public function ボードを生成できる() {
+    public function ボードを生成できる()
+    {
         $this->assertEquals("---\n---\n---\n", $this->sut->toString());
     }
 
     /**
      * @test
+     * @throws StoneExistsException
      */
-    public function 石を置ける() {
-        $position = new Position(1,1);
+    public function 石を置ける()
+    {
+        $position = new Position(1, 1);
         $this->sut->put($position, Stone::WHITE());
 
-        $this->assertEquals(Stone::WHITE(),$this->sut->get($position));
+        $this->assertEquals(Stone::WHITE(), $this->sut->get($position));
+    }
+
+    /**
+     * @test
+     * @throws StoneExistsException
+     */
+    public function すでに石がある場所には石を置けない()
+    {
+        $position = new Position(1, 1);
+        $this->sut->put($position, Stone::WHITE());
+
+        $this->expectException(StoneExistsException::class);
+        $this->sut->put($position, Stone::BLACK());
     }
 }
