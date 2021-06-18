@@ -67,12 +67,10 @@ class Cell
 
     /**
      * 石を反転します。
-     *
-     * @throws StoneNotFoundException 石が存在しない場合
      */
     public function turn() {
         if ($this->stone === null) {
-            throw new StoneNotFoundException($this->position);
+            return;
         }
         $this->stone = $this->stone->turn();
     }

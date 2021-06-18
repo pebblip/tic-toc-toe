@@ -78,7 +78,6 @@ class Board
      * @param Stone    $stone
      *
      * @throws StoneExistsException
-     * @throws StoneNotFoundException
      */
     public function put(Position $position, Stone $stone)
     {
@@ -90,11 +89,20 @@ class Board
     }
 
     /**
+     * @param Position $position
+     *
+     * @return bool
+     */
+    public function isEmpty(Position $position) : bool {
+        $cell = $this->atCell($position);
+
+        return $cell !== null && !$cell->hasStone();
+    }
+
+    /**
      * 起点となる位置からすべての可能な石をひっくり返す。
      *
      * @param Position $position 起点となる位置
-     *
-     * @throws StoneNotFoundException
      */
     private function flip(Position $position)
     {
