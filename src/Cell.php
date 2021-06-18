@@ -100,6 +100,10 @@ class Cell
      * @param Cell      $cell
      */
     public function setNeighbor(Direction $direction, Cell $cell) {
+        if (!$this->position()->next($direction)->eq($cell->position())) {
+            throw new \InvalidArgumentException('Next cell is invalid');
+        }
+
         $this->neighbors[$direction->code()] = $cell;
 
         if (!$cell->hasNeighbor($direction->opposite())) {
