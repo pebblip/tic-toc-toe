@@ -2,15 +2,21 @@
 
 namespace Pebblip;
 
-use phpDocumentor\Reflection\Location;
 use PHPUnit\Framework\TestCase;
 
 class PositionTest extends TestCase
 {
+    /**
+     * @test
+     * @dataProvider eqCases
+     */
+    public function 比較できる(Position $position, Position $other, bool $expected) {
+        $this->assertEquals($expected, $position->eq($other));
+    }
 
     /**
      * @test
-     * @dataProvider nextCasese
+     * @dataProvider nextCases
      */
     public function 隣接座標を取得できる(Position $position, Direction $direction, Position $expected)
     {
@@ -20,7 +26,7 @@ class PositionTest extends TestCase
     }
 
 
-    public function nextCasese()
+    public function nextCases()
     {
         return [
             [
@@ -33,6 +39,16 @@ class PositionTest extends TestCase
                 new Position(0,0), Direction::BL(), new Position(-1,1),
                 new Position(0,0), Direction::TL(), new Position(-1,-1),
             ]
+        ];
+    }
+
+    public function eqCases()
+    {
+        return [
+            [new Position(0,0), new Position(0,0), true],
+            [new Position(0,0), new Position(1,0), false],
+            [new Position(0,0), new Position(1,1), false],
+            [new Position(1,1), new Position(1,1), true],
         ];
     }
 }
