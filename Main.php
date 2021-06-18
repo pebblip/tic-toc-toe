@@ -29,22 +29,34 @@ function nextPosition($input): ?Position
     }
 }
 
-while (true) {
-    echo $board->toString(), PHP_EOL;
+function println(string $message, $withLn = true) {
+    if ($withLn) {
+        echo $message, PHP_EOL;
+    }
+    else {
+        echo $message;
+    }
+}
 
-    echo 'ENTER POSITION(x,y):';
+println('######## Welcome to ic-tac-toe ########');
+
+while (true) {
+    println($board->toString());
+
+    println("next player: {$currentStone}");
+    println('enter (x,y) to put stone: ', false);
     $input = fgets(STDIN);
 
     $position = nextPosition($input);
 
     if (!$position) {
-        echo 'SOMETHING WRONG.', PHP_EOL;
+        println('SOMETHING WRONG.');
         continue;
     }
 
 
     if (!$board->isEmpty($position)) {
-        echo 'CANT PUT HERE.', PHP_EOL;
+        println('CANT PUT HERE.');
         continue;
     }
     $board->put($position, $currentStone);
