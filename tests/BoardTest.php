@@ -66,5 +66,25 @@ class BoardTest extends TestCase
         $this->assertFalse($this->sut->isEmpty($position));
     }
 
+    /**
+     * @test
+     * @throws StoneExistsException
+     */
+    public function 石を置くと隣接するすべての石をひっくり返す()
+    {
+        $board = Board::make(4);
 
+        $board->put(new Position(1,1), Stone::BLACK());
+        $board->put(new Position(1,2), Stone::WHITE());
+        $board->put(new Position(1,3), Stone::WHITE());
+
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,1)));
+        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,2)));
+        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,3)));
+
+        $board->put(new Position(1,4), Stone::BLACK());
+
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,2)));
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,3)));
+    }
 }
