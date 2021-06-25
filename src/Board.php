@@ -96,18 +96,22 @@ class Board
 
     /**
      * 指定した位置に石を置きます。
+     *
      * @param Position $position
      * @param Stone    $stone
      *
+     * @return Board
      * @throws StoneExistsException
      */
-    public function put(Position $position, Stone $stone)
+    public function put(Position $position, Stone $stone) : Board
     {
         $cell = $this->atCell($position);
         $cell->putStone($stone);
 
         //石をひっくり返す
         $this->flip($position);
+
+        return $this;
     }
 
     /**
