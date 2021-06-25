@@ -41,6 +41,20 @@ class Board
     }
 
     /**
+     * 左上から右下までのすべてのボード位置を返します。
+     * @return array
+     */
+    public function positions() : array {
+        $positions = [];
+        foreach (range(1, $this->size()) as $y) {
+            foreach (range(1, $this->size()) as $x) {
+                $positions[] = new Position($x, $y);
+            }
+        }
+        return $positions;
+    }
+
+    /**
      * ゲーム盤を生成します。
      *
      * @param int $size
@@ -57,6 +71,14 @@ class Board
         }
 
         return new Board($size, $cells);
+    }
+
+    /**
+     * ゲーム盤のサイズを返します。
+     * @return int
+     */
+    public function size() : int {
+        return $this->size;
     }
 
     /**
@@ -97,6 +119,67 @@ class Board
         $cell = $this->atCell($position);
 
         return $cell !== null && !$cell->hasStone();
+    }
+
+    /**
+     * 空いているセルがあればtrueを返します。
+     * @return bool
+     */
+    public function hasEmpty() : bool {
+        foreach ($this->positions() as $position) {
+            if ($this->isEmpty($position)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 現在の石の数を返します。
+     * @param Stone $stone
+     *
+     * @return int
+     */
+    public function count(Stone $stone) : int
+    {
+        $cells = array_filter(
+            $this->positions(),
+            function (Position $position) use ($stone) {
+                return $this->atCell($position)->stone() !== null
+                    && $this->atCell($position)->stone()->eq($stone);
+            }
+        );
+
+        return count($cells);
+    }
+
+    /**
+     * 裏返せる石の数を返します。
+     *
+     * @param Position $position
+     * @param Stone    $stone
+     *
+     * @return int
+     */
+    public function numberTurnedOver(Position $position, Stone $stone) : int {
+        $cell = $this->atCell($position);
+
+        $cellsTurnedList = array_map(
+            function (Direction $direction) use ($stone, $cell) {
+                return $this->collectCellsToTurn($cell->neighbor($direction),
+                    $stone->turn(), $direction, []);
+            },
+            Direction::all()
+        );
+
+        $numberTurnedList = array_map(
+            function (array $cellsTurned) {
+                return count($cellsTurned);
+            },
+            $cellsTurnedList
+        );
+
+        return array_sum($numberTurnedList);
     }
 
     /**

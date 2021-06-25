@@ -2,27 +2,13 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Pebblip\AlgorithmType;
 use Pebblip\Board;
-use Pebblip\Position;
+use Pebblip\ComputerAlgorithm;
+use Pebblip\ComputerPlayer;
+use Pebblip\HumanPlayer;
+use Pebblip\Player;
 use Pebblip\Stone;
-
-/**
- * @param $input
- *
- * @return Position
- */
-function nextPosition($input): ?Position
-{
-    try {
-        $positions = explode(',', trim($input));
-        if (!is_numeric($positions[0]) || !is_numeric($positions[0])) {
-            return null;
-        }
-        return new Position($positions[0], $positions[1]);
-    } catch (Exception $e) {
-        return null;
-    }
-}
 
 function println(string $message, $withLn = true) {
     if ($withLn) {
@@ -33,33 +19,95 @@ function println(string $message, $withLn = true) {
     }
 }
 
-println('######## Welcome to tic-tac-toe ########');
+function getBordSize() {
+    println("ゲーム盤の大きさを入力してください: ", false);
 
-$boardSize = $argv[1];
+    $bordSize = trim(fgets(STDIN));
+
+    if (!is_numeric($bordSize) || $bordSize < 1) {
+        println("１より大きい整数を入力してください。");
+        return getBordSize();
+    }
+
+    return $bordSize;
+}
+
+function createPlayers(ComputerAlgorithm $algorithm) : callable
+{
+    $player1 = new HumanPlayer(Stone::BLACK(), STDIN, STDOUT);
+    $player2 = new ComputerPlayer(Stone::WHITE(), $algorithm, 1);
+
+    $players = [$player1, $player2];
+
+    return function () use (&$players) : Player {
+        $player = array_shift($players);
+        $players[] = $player;
+
+        return $player;
+    };
+}
+
+function chooseAlgorithmType()
+{
+    println("以下の中からコンピュータのアルゴリズムを選択してください");
+    foreach (AlgorithmType::all() as $algorithmType) {
+        println("{$algorithmType->code()}: {$algorithmType->description()}");
+    }
+
+    $codeList = array_map(function (AlgorithmType $type) { return $type->code(); }, AlgorithmType::all());
+    $codeListText = implode(',', $codeList);
+    println("コンピュータのアルゴリズム（{$codeListText}）: ", false);
+    $code = trim(fgets(STDIN));
+
+    if (array_search($code, $codeList) === false) {
+        chooseAlgorithmType();
+    }
+
+    return AlgorithmType::ofCode($code);
+}
+
+
+println('######## オセロもどきのゲームにようこそ ########');
+
+$boardSize = getBordSize();
 
 $board = Board::make($boardSize);
 
-$currentStone = Stone::BLACK();
+$algorithmType = chooseAlgorithmType();
+
+$changePlayer = createPlayers($algorithmType->algorithm());
+
+$currentPlayer = $changePlayer();
 
 while (true) {
     println($board->toString());
 
-    println("next player: {$currentStone}");
-    println('enter (x,y) to put stone: ', false);
-    $input = fgets(STDIN);
+    if (!$board->hasEmpty()) {
+        println('ゲーム終了');
+        $blackCount = $board->count(Stone::BLACK());
+        $whiteCount = $board->count(Stone::WHITE());
+        println("黒: {$blackCount}, 白 : {$whiteCount}");
 
-    $position = nextPosition($input);
-
-    if (!$position) {
-        println('SOMETHING WRONG.');
-        continue;
+        if ($blackCount > $whiteCount) {
+            println("あなたの勝ち！");
+        }
+        else if ($blackCount < $whiteCount) {
+            println("コンピュータの勝ち");
+        }
+        else {
+            println("引き分け");
+        }
+        break;
     }
+
+    $position = $currentPlayer->nextPosition($board);
 
     if (!$board->isEmpty($position)) {
-        println('CANT PUT HERE.');
+        println('ここには石を置けません。');
         continue;
     }
-    $board->put($position, $currentStone);
 
-    $currentStone = $currentStone->turn();
+    $board->put($position, $currentPlayer->stone());
+
+    $currentPlayer = $changePlayer();
 }
