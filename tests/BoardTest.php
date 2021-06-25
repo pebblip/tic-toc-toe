@@ -87,4 +87,41 @@ class BoardTest extends TestCase
         $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,2)));
         $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,3)));
     }
+
+    /**
+     * @test
+     * @throws StoneExistsException
+     */
+    public function 空のセルがあるか判定できる() {
+        $board = Board::make(2);
+
+        $board->put(new Position(1,1), Stone::BLACK());
+        $board->put(new Position(1,2), Stone::BLACK());
+        $board->put(new Position(2,1), Stone::BLACK());
+
+        $this->assertTrue($board->hasEmpty());
+
+        $board->put(new Position(2,2), Stone::BLACK());
+
+        $this->assertFalse($board->hasEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function 石の数を数えられる() {
+        $board = Board::make(2);
+
+        $this->assertEquals(0, $board->count(Stone::BLACK()));
+
+        $board->put(new Position(1,1), Stone::BLACK());
+        $board->put(new Position(1,2), Stone::WHITE());
+        $board->put(new Position(2,1), Stone::BLACK());
+
+        $this->assertEquals(2, $board->count(Stone::BLACK()));
+        $this->assertEquals(1, $board->count(Stone::WHITE()));
+
+        $board->put(new Position(2,2), Stone::BLACK());
+        $this->assertEquals(3, $board->count(Stone::BLACK()));
+    }
 }
