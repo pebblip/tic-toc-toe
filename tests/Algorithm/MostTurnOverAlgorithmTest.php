@@ -40,9 +40,8 @@ class MostTurnOverAlgorithmTest extends TestCase
      * @test
      */
     public function 引っくり返せる位置がなければ最初の空き位置を返す() {
-        $sut = new FirstTurnOverAlgorithm();
+        $sut = new Mo();
 
-        //?は次に●が引っくり返すことができるセルの位置を表す。このアルゴリズムは最初の?の位置を返す。
         //  ● ○ ● - -
         //  - - ○ - -
         //  - - ● ● -
