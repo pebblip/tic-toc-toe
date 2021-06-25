@@ -72,7 +72,7 @@ class Cell
         if ($this->stone === null) {
             return;
         }
-        $this->stone = $this->stone->turn();
+        $this->stone = $this->stone->opposite();
     }
 
     /**

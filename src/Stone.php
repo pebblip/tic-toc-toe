@@ -3,7 +3,9 @@
 
 namespace Pebblip;
 
-
+/**
+ * 石。
+ */
 class Stone
 {
     /**
@@ -24,10 +26,10 @@ class Stone
     }
 
     /**
-     * 石を反転します。
+     * 反対の石を返します。
      * @return Stone
      */
-    public function turn() : Stone {
+    public function opposite() : Stone {
         switch ($this) {
             case self::BLACK(): return self::WHITE();
             case self::WHITE(): return self::BLACK();

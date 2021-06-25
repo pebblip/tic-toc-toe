@@ -167,7 +167,7 @@ class Board
         $cellsTurnedList = array_map(
             function (Direction $direction) use ($stone, $cell) {
                 return $this->collectCellsToTurn($cell->neighbor($direction),
-                    $stone->turn(), $direction, []);
+                    $stone->opposite(), $direction, []);
             },
             Direction::all()
         );
@@ -193,7 +193,7 @@ class Board
 
         foreach (Direction::all() as $direction) {
             $collects = $this->collectCellsToTurn($cell->neighbor($direction),
-                $cell->stone()->turn(), $direction, []);
+                $cell->stone()->opposite(), $direction, []);
 
             foreach ($collects as $collect) {
                 $collect->turn();
@@ -219,7 +219,7 @@ class Board
             return [];
         }
 
-        if ($cell->stone()->eq($stone->turn())) {
+        if ($cell->stone()->eq($stone->opposite())) {
             return $cells;
         }
 

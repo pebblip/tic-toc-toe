@@ -141,10 +141,9 @@ class BoardTest extends TestCase
         $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,2)));
         $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,3)));
 
-        $board->put(new Position(1,4), Stone::BLACK());
+        $actual = $board->numberTurnedOver(new Position(1, 4), Stone::BLACK());
 
-        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,2)));
-        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,3)));
+        $this->assertEquals(2, $actual);
     }
 
 
