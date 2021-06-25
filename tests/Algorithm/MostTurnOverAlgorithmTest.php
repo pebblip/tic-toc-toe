@@ -13,7 +13,7 @@ class MostTurnOverAlgorithmTest extends TestCase
      * @test
      * @throws \Pebblip\StoneExistsException
      */
-    public function 最初のひっくり返せる位置を返す()
+    public function 最も多くひっくり返せる位置を返す()
     {
         $sut = new MostTurnOverAlgorithm();
 
