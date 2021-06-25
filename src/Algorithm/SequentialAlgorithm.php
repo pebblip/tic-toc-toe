@@ -19,6 +19,6 @@ class SequentialAlgorithm implements ComputerAlgorithm
             throw new \RuntimeException('Not found next position');
         }
 
-        return $emptyPositions[0];
+        return array_shift($emptyPositions);
     }
 }

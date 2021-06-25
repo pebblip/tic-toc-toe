@@ -7,15 +7,15 @@ use Pebblip\Position;
 use Pebblip\Stone;
 use PHPUnit\Framework\TestCase;
 
-class FirstTurnOverAlgorithmTest extends TestCase
+class SequentialAlgorithmTest extends TestCase
 {
     /**
      * @test
      * @dataProvider cases
      */
-    public function testNextPosition(Board $board, Position $expected)
+    public function 最初の空いている位置を返す(Board $board, Position $expected)
     {
-        $sut = new FirstTurnOverAlgorithm();
+        $sut = new SequentialAlgorithm();
 
         $actual = $sut->nextPosition($board, Stone::BLACK());
 
