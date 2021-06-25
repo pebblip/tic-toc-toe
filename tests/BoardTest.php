@@ -70,28 +70,6 @@ class BoardTest extends TestCase
      * @test
      * @throws StoneExistsException
      */
-    public function 石を置くと隣接するすべての石をひっくり返す()
-    {
-        $board = Board::make(4);
-
-        $board->put(new Position(1,1), Stone::BLACK());
-        $board->put(new Position(1,2), Stone::WHITE());
-        $board->put(new Position(1,3), Stone::WHITE());
-
-        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,1)));
-        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,2)));
-        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,3)));
-
-        $board->put(new Position(1,4), Stone::BLACK());
-
-        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,2)));
-        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,3)));
-    }
-
-    /**
-     * @test
-     * @throws StoneExistsException
-     */
     public function 空のセルがあるか判定できる() {
         $board = Board::make(2);
 
@@ -124,4 +102,50 @@ class BoardTest extends TestCase
         $board->put(new Position(2,2), Stone::BLACK());
         $this->assertEquals(3, $board->count(Stone::BLACK()));
     }
+
+    /**
+     * @test
+     * @throws StoneExistsException
+     */
+    public function 石を置くと隣接するすべての石をひっくり返す()
+    {
+        $board = Board::make(4);
+
+        $board->put(new Position(1,1), Stone::BLACK());
+        $board->put(new Position(1,2), Stone::WHITE());
+        $board->put(new Position(1,3), Stone::WHITE());
+
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,1)));
+        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,2)));
+        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,3)));
+
+        $board->put(new Position(1,4), Stone::BLACK());
+
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,2)));
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,3)));
+    }
+
+    /**
+     * @test
+     * @throws StoneExistsException
+     */
+    public function ひっくり返せる石の数を数えられる()
+    {
+        $board = Board::make(4);
+
+        $board->put(new Position(1,1), Stone::BLACK());
+        $board->put(new Position(1,2), Stone::WHITE());
+        $board->put(new Position(1,3), Stone::WHITE());
+
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,1)));
+        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,2)));
+        $this->assertEquals(Stone::WHITE(), $board->get(new Position(1,3)));
+
+        $board->put(new Position(1,4), Stone::BLACK());
+
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,2)));
+        $this->assertEquals(Stone::BLACK(), $board->get(new Position(1,3)));
+    }
+
+
 }
