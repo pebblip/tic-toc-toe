@@ -8,6 +8,13 @@ use Pebblip\Algorithm\MostTurnOverAlgorithm;
 use Pebblip\Algorithm\RandomAlgorithm;
 use Pebblip\Algorithm\SequentialAlgorithm;
 
+/**
+ * アルゴリズムの種類
+ *
+ * Class AlgorithmType
+ *
+ * @package Pebblip
+ */
 class AlgorithmType
 {
     private int $code;
@@ -33,6 +40,8 @@ class AlgorithmType
 
 
     /**
+     * 空いているセルをランダムに選ぶアルゴリズム。
+     *
      * @return AlgorithmType
      */
     public static function RANDOM(): AlgorithmType
@@ -41,12 +50,23 @@ class AlgorithmType
             new RandomAlgorithm());
     }
 
+    /**
+     * 空いている最初のセルを選ぶアルゴリズム。
+     * @return AlgorithmType
+     */
     public static function SEQUENTIAL(): AlgorithmType
     {
         return new AlgorithmType(2, '空いている最初のセルを選びます。',
             new SequentialAlgorithm());
     }
 
+    /**
+     * 相手の石をひっくり返せることができる最初のセルを選ぶアルゴリズム。
+     *
+     * ひっくり返せるセルがない場合、最初の空きセルを返す。
+     *
+     * @return AlgorithmType
+     */
     public static function FIST_TURNOVER(): AlgorithmType
     {
         return new AlgorithmType(3,
@@ -54,6 +74,13 @@ class AlgorithmType
             new FirstTurnOverAlgorithm());
     }
 
+    /**
+     * 相手の石を最もひっくり返すことができるセルを選ぶアルゴリズム。
+     *
+     * ひっくり返せるセルがない場合、最初の空きセルを返す。
+     *
+     * @return AlgorithmType
+     */
     public static function MOST_TURNOVER(): AlgorithmType
     {
         return new AlgorithmType(4,
@@ -85,6 +112,11 @@ class AlgorithmType
         return $this->algorithm;
     }
 
+    /**
+     * @param int $code
+     *
+     * @return AlgorithmType
+     */
     public static function ofCode(int $code): AlgorithmType
     {
         return [
