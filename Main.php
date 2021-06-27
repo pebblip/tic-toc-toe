@@ -60,7 +60,7 @@ function chooseAlgorithmType()
     $code = trim(fgets(STDIN));
 
     if (array_search($code, $codeList) === false) {
-        chooseAlgorithmType();
+        return chooseAlgorithmType();
     }
 
     return AlgorithmType::ofCode($code);
